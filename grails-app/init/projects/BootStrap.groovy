@@ -16,6 +16,9 @@ class BootStrap {
             Appuser u = new Appuser()
             u.username = "Admin"
             u.password = "test"
+            u.firstName = "Edmond"
+            u.lastName = "Koci"
+            u.email = "mondi.s.koci@gmail.com"
             u.save(flush:true)
 
             Role r = new Role([name:"ROLE_ADMIN"])

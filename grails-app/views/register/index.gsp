@@ -21,30 +21,32 @@
                 <g:if test='${flash.message}'>
                     <div class="alert alert-danger" role="alert">${flash.message}</div>
                 </g:if>
-                <form class="form-signin d-flex flex-column gap-3" action="register" method="POST" id="loginForm" autocomplete="off">
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <g:select class="form-control" name="role.id"
-                                  from="${Role.list()}"
-                                  optionKey="id"
-                                default="Select Role"/>
+                <form class="form-floating d-flex flex-column gap-3" action="register" method="POST" id="loginForm" autocomplete="off">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                            <option selected>-- Select Role --</option>
+                            <g:each in="${Role.list()}" var="role">
+                                <option value="${role.id}" name="${role.id}">${role.authority}</option>
+                            </g:each>
+                        </select>
+                        <label for="floatingSelect">Works with selects</label>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="username">Username</label>
                         <input type="text" placeholder="Your username" class="form-control" name="username" id="username" autocapitalize="none"/>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-floating">
                         <input type="password" placeholder="Your password" class="form-control" name="password" id="password" aria-placeholder="password"/>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="confirmPassword">Re-Enter Password</label>
                         <input type="password" placeholder="Re-enter password" class="form-control" name="confirmPassword" id="confirmPassword"/>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-floating">
                         <label for="fullName">Full Name</label>
                         <input type="text" placeholder="Your full name" class="form-control" name="fullName" id="fullName" autocapitalize="none"/>
                     </div>

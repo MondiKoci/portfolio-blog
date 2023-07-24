@@ -65,7 +65,7 @@ function authAjax() {
                 }
             }
             else if (json.error) {
-                $("#loginMessage").html('<span class="errorMessage">' +
+                $("#loginMessage").html('<span class="errorMessage alert alert-danger">' +
                     json.error + "</error>");
             }
             else {
@@ -76,7 +76,7 @@ function authAjax() {
             if (jqXHR.status == 401 && jqXHR.getResponseHeader("Location")) {
                 // the login request itself wasn't allowed, possibly because the
                 // post url is incorrect and access was denied to it
-                $("#loginMessage").html('<span class="errorMessage">' +
+                $("#loginMessage").html('<span class="errorMessage alert alert-danger">' +
                     'Sorry, there was a problem with the login request</error>');
             }
             else {

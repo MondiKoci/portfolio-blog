@@ -19,7 +19,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/blog/create/**', 			access: ['ROLE_ADMIN']]
 ]
 
-grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/post'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/loginSuccess'
 grails.plugin.springsecurity.interceptUrlMap = [
 		'/h2-console/**': ['permitAll']
 ]

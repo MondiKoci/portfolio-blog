@@ -10,10 +10,8 @@ class PostController {
 
     def index() {
         def blogPosts = Post.list()
-        def xyz = 123
         [blogPosts: blogPosts]
     }
-
 
     @Transactional
     def create() {
@@ -21,6 +19,7 @@ class PostController {
             Appuser u = springSecurityService.currentUser
             def title = params.title
             def content = params.content
+            List<String> selectedCategories = params.list('selectedCategories')
             def category = Category.get(params?.category?.id as Double)
             def blogPost = new Post()
             blogPost.author = u

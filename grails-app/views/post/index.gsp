@@ -13,11 +13,11 @@
 </head>
 
 <body>
-<div class="row mx-point-rem">
+<div class="row mx-point-one">
     <div class="p-4 p-md-5 mb-2 rounded text-body-emphasis bg-body-secondary">
         <div class="col-lg-6 px-0">
-            <h1 class="display-5 fst-italic">How to wake up!</h1>
-            <p class="lead my-3">Of course I am joking; who am I to know the answer the question that was asked by and tormented the most brilliant humans to ever live.</p>
+            <h1 class="display-5 fst-italic">A blog post title!</h1>
+            <p class="lead my-3">This is where the content of the blog post goes..</p>
             <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>
         </div>
     </div>

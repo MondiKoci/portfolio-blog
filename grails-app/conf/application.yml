@@ -115,13 +115,13 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://192.168.2.100:5432/portfolio
+            url: jdbc:postgresql://192.168.2.100:5432/portfolio_test
             username: root
             password: 123
     test:
         dataSource:
             dbCreate: update
-            rl: jdbc:postgresql://192.168.2.100:5432/portfolio
+            rl: jdbc:postgresql://192.168.2.100:5432/portfolio_test
     production:
         production:
             dataSource:

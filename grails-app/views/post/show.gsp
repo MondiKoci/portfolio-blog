@@ -21,17 +21,18 @@
             <article class="blog-post">
                 <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
                 <p class="blog-post-meta">${blogPost.dateCreated}<a href="#"> ${blogPost.author.username}</a></p>
+                <p>${blogPost.content}</p>
                 <g:if test="${blogPost.categories != null}">
-                    <div class="d-flex gap-2 justify-content-start">
+                    <div class="d-flex justify-content-start">
                         <g:each in="${blogPost.categories}" var="cat">
-                            <span class="badge text-bg-primary rounded-pill">${cat}</span>
+                            # <span class="badge mx-1 text-bg-primary rounded-pill">${cat}</span>
+                            <span class="badge mx-1 text-bg-primary rounded-pill">${cat}</span>
                         </g:each>
                     </div>
                 </g:if>
                 <g:else>
                     <span class="badge text-bg-primary rounded-pill">Uncategorized</span>
                 </g:else>
-                <p>${blogPost.content}</p>
                 <hr>
             </article>
         </g:if>

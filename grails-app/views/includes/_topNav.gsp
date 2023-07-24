@@ -1,3 +1,36 @@
+<asset:stylesheet src="sign-in.css"/>
+<div id="ajaxLogin" class="jqmWindow" style="z-index: 3000;">
+    <div class="w-100 m-auto" style="width:100%;max-width:500px;">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <div class="fheader">Please Login..</div>
+                <form action="${request.contextPath}/login/authenticate" method="POST"
+                      id="ajaxLoginForm" name="ajaxLoginForm" class="form-signin" autocomplete="off">
+                    <div class="form-floating">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control text_" name="username" id="username" />
+                    </div>
+                    <div class="form-floating">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control text_" name="password" id="password" />
+                    </div>
+                    <div class="form-check">
+                        <label class="form-label" for="remember_me">Remember me</label>
+                        <input type="checkbox" class="chk" id="remember_me" name="remember-me"/>
+                    </div>
+                    <p>
+                        <input type="submit" id="authAjax" name="authAjax"
+                               value="Login" class="ajaxLoginButton btn btn-sm btn-primary" />
+                        <input type="button" id="cancelLogin" value="Cancel"
+                               class="ajaxLoginButton btn btn-sm btn-secondary" />
+                    </p>
+                </form>
+                <div style="display: none; text-align: left;" id="loginMessage"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-1" aria-label="Eleventh navbar example">
         <div class="container-fluid">
@@ -30,7 +63,21 @@
                 <form role="search">
                     <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                <g:render template='/includes/ajaxLogin'/>
+                <div class="mxw-content ms-3">
+                    <span id="logoutLink" style="display: none;">
+                        <g:link elementId='_logout' controller='logout'>Logout</g:link>
+                    </span>
+
+                    <span id="loginLink" class="float-right position-relative">
+                        <sec:ifLoggedIn>
+                            Logged in as <sec:username/> (<g:link elementId='logout' controller='logout'>Logout</g:link>)
+                        </sec:ifLoggedIn>
+                        <sec:ifNotLoggedIn>
+                            <a href="#" class="btn btn-themed" onclick="showLogin(); return false;">Login</a>
+                            <g:link class="btn btn-info" controller="register">Register</g:link>
+                        </sec:ifNotLoggedIn>
+                    </span>
+                </div>
             </div>
         </div>
     </nav>

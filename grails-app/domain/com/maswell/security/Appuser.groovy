@@ -11,18 +11,23 @@ import grails.compiler.GrailsCompileStatic
 class Appuser implements Serializable {
 
     private static final long serialVersionUID = 1
-
+    transient String displayName
     String username
     String password
+    String firstName
+    String lastName
+    String email
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
 
-    static hasMany = [blogPosts: Post]
-
     Set<Role> getAuthorities() {
         (AppuserRole.findAllByAppuser(this) as List<AppuserRole>)*.role as Set<Role>
+    }
+
+    Set<Post> getPosts(){
+        Post.findAllByAuthor(this) as Set<Post>
     }
 
     static constraints = {
@@ -32,5 +37,13 @@ class Appuser implements Serializable {
 
     static mapping = {
 	    password column: '`password`'
+    }
+
+    def onLoad(){
+        displayName = "$firstName $lastName"
+    }
+
+    def getDisplayName(){
+        this.displayName
     }
 }

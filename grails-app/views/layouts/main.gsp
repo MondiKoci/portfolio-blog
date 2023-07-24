@@ -17,8 +17,9 @@
 </head>
 
 <body>
-<g:render template="/includes/themeSelection"/>
 <g:render template='/includes/topNav'/>
+<g:render template="/includes/themeSelection"/>
+
 <main class="container mt-2 h-100">
     <g:layoutBody/>
 </main>
