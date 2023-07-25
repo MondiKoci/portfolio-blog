@@ -13,54 +13,7 @@
 </head>
 
 <body>
-<div class="row mx-point-one">
-    <div class="p-4 p-md-5 mb-2 rounded text-body-emphasis bg-body-secondary">
-        <div class="col-lg-6 px-0">
-            <h1 class="display-5 fst-italic">A blog post title!</h1>
-            <p class="lead my-3">This is where the content of the blog post goes..</p>
-            <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-2">
-    <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-                <h3 class="mb-0">Featured post</h3>
-                <div class="mb-1 text-body-secondary">Nov 12</div>
-                <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-                    Continue reading
-                    <svg class="bi"><use xlink:href="#chevron-right"/></svg>
-                </a>
-            </div>
-            <div class="col-auto d-none d-lg-block p-1">
-                <img src="https://fastly.picsum.photos/id/927/200/250.jpg?hmac=fX0QKYA1ZWiePZWweWdMgfhxYZPk9LbJf53LH3WumlE" alt="picsum"/>
-                %{--                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>--}%
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-success-emphasis">Design</strong>
-                <h3 class="mb-0">Post title</h3>
-                <div class="mb-1 text-body-secondary">Nov 11</div>
-                <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-                    Continue reading
-                    <svg class="bi"><use xlink:href="#chevron-right"/></svg>
-                </a>
-            </div>
-            <div class="col-auto d-none d-lg-block">
-                <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row g-5">
+<div class="row pt-2">
     <div class="col-md-8">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             Straight from the Oven
@@ -68,19 +21,32 @@
         <g:each in="${blogPosts}" var="blogPost">
             <article class="blog-post">
                 <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
-                <p class="blog-post-meta">${blogPost.date}<a href="#"> ${blogPost.author.username}</a></p>
                 <p>${blogPost.content}</p>
-                <g:if test="${blogPost.categories != null}">
-                    <div class="d-flex justify-content-start">
-                        <g:each in="${blogPost.categories}" var="cat">
-                            <span class="font-monospace font-weight-light mx-1 text-bg-primary rounded-pill px-1" style="font-size:12px;">${cat.name}</span>
-                        </g:each>
+                <g:if test="${blogPost.categories != null || blogPost.categories.size() != 0}">
+                    <div class="d-flex flex-row justify-content-between align-items-end">
+                        <div class="mxw-content">
+                            <span class="fs-8 text-nowrap text-lowercase bg-secondary-subtle px-1 py-1 rounded-1">${blogPost.date}</span>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <g:each in="${blogPost.categories}" var="cat" status="i">
+                                <a href="#" class="fs-8 text-nowrap text-lowercase text-primary px-1 text-decoration-none hover-decoration">
+                                    <g:if test="${i < blogPost.categories.size() - 1}">
+                                        ${cat.name},
+                                    </g:if>
+                                    <g:else>
+                                        ${cat.name}
+                                    </g:else>
+                                </a>
+                            </g:each>
+                        </div>
                     </div>
                 </g:if>
                 <g:else>
                     <span class="badge text-bg-primary rounded-pill">Uncategorized</span>
                 </g:else>
-                <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                <sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_SUPER_ADMIN'>
+                    <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                </sec:ifAnyGranted>
                 <hr class="mt-1 mb-1">
             </article>
         </g:each>
@@ -99,7 +65,7 @@
             <div class="p-4 mb-3 bg-body-tertiary rounded">
                 <h4 class="fst-italic">Today's Reflection</h4>
                 %{--                <p class="mb-0">Impossible to obtain something that doesn't exist! Even more harmful is the skewed perception that perfection is a good thing.</p>--}%
-                <p class="mb-0">At the end of the day give yourself a few minutes to think about what you thought during the day. Can you find any fallacies?</p>
+                <p class="mb-0">Few of us are walking on the rope. The rest we are hanging to it; either carrying the heavy weight or holding tight so the wind doesn't blow us away. We are rope walkers.</p>
             </div>
 
             <div>

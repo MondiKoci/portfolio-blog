@@ -26,7 +26,7 @@
 
     <div class="mb-3 d-flex flex-column gap-2">
         <label for="categories">Category:</label>
-        <select id="categories" name="categories" multiple>
+        <select id="categories" class="form-select" name="categories" multiple>
             <option></option>
             <g:each in="${categories}" var="category">
                 <option value="${category.id}">${category.name}</option>
@@ -46,6 +46,7 @@
         $('#categories').select2({
             placeholder: "Select a Category",
             allowClear: true,
+            selectionCssClass: 'dropdown-item',
             width: 'resolve' // need to override the changed default
         });
     });

@@ -35,7 +35,9 @@
                 <g:else>
                     <span class="badge text-bg-primary rounded-pill">Uncategorized</span>
                 </g:else>
-                <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                <sec:ifAnyGranted roles='ROLE_ADMIN,ROLE_SUPER_ADMIN'>
+                    <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                </sec:ifAnyGranted>
                 <hr class="mt-1 mb-1">
             </article>
         </g:if>

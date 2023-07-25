@@ -4,7 +4,7 @@ import com.maswell.security.Appuser
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured('ROLE_ADMIN')
+@Secured('permitAll')
 class PostController {
     def springSecurityService
     def categoryService
