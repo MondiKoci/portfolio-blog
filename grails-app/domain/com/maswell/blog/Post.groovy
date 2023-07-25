@@ -11,8 +11,8 @@ class Post {
     Date dateCreated = new Date()
     Appuser author
 
-    byte[] postImageBytes // <1>
-    String postImageContentType // <2>
+    byte[] postImageBytes
+    String postImageContentType
 
     static hasMany = [categories: Category]
     static mapping = {
@@ -22,7 +22,7 @@ class Post {
     static constraints = {
         title(blank: false, maxSize: 100)
         content(blank: false, maxSize: 5000)
-        postImageBytes nullable: true
+        postImageBytes nullable: true, maxSize: 1024 * 1024 * 4
         postImageContentType nullable: true
     }
 }

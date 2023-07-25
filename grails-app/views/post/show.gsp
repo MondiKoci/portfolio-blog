@@ -10,6 +10,9 @@
 <head>
     <title>${blogPost.title}</title>
     <meta name="layout" content="main"/>
+    <style>
+
+    </style>
 </head>
 <body>
 <div class="row g-5">
@@ -21,9 +24,6 @@
             <article class="blog-post">
                 <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
                 <p class="blog-post-meta">${blogPost.date}<a href="#"> ${blogPost.author.username}</a></p>
-                <g:if test="${blogPost.postImageBytes}">
-                    <img src="<g:createLink controller="post" action="postImage" id="${blogPost.id}"/>" style="width:100%;max-width:max-content"/>
-                </g:if>
                 <p>${blogPost.content}</p>
                 <g:if test="${blogPost.categories != null}">
                     <div class="d-flex justify-content-start">
@@ -59,11 +59,18 @@
                 <ul class="list-unstyled">
                     <li>
                         <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                            <g:if test="${blogPost.postImageBytes}">
+                                <div class="image-container">
+                                    <img class="post" src="<g:createLink controller="post" action="postImage" id="${blogPost.id}"/>"/>
+                                </div>
+                            </g:if>
+                            <g:else>
+                                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                            </g:else>
 
-                            <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
                             <div class="col-lg-8">
-                                <h6 class="mb-0">Example post post title</h6>
-                                <small class="text-body-secondary">January 15, 2023</small>
+                                <h6 class="mb-0">${blogPost.title}</h6>
+                                <small class="text-body-secondary">${blogPost.date}</small>
                             </div>
                         </a>
                     </li>

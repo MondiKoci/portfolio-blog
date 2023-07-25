@@ -60,35 +60,102 @@
         </div>
     </div>
 </div>
-<h1>Web Blog</h1>
-<g:if test="${blogPosts != null}">
-    <ul>
-        <g:each var="post" in="${blogPosts}">
-            <li>
-                <g:link action="show" id="${post.id}">${post.title}</g:link>
-                <br/>Category: ${post.categories?.name ?: 'Uncategorized'}
-
-                <g:if test="${post.categories != null}">
-                    <div class="d-flex gap-2 justify-content-center py-5">
-                        <g:each in="${post.categories}" var="cat">
-                            <span class="badge text-bg-primary rounded-pill">${cat}</span>
-                        %{--                    <span class="badge text-bg-secondary rounded-pill">Secondary</span>--}%
-                        %{--                    <span class="badge text-bg-success rounded-pill">Success</span>--}%
-                        %{--                    <span class="badge text-bg-danger rounded-pill">Danger</span>--}%
-                        %{--                    <span class="badge text-bg-warning rounded-pill">Warning</span>--}%
-                        %{--                    <span class="badge text-bg-info rounded-pill">Info</span>--}%
-                        %{--                    <span class="badge text-bg-light rounded-pill">Light</span>--}%
-                        %{--                    <span class="badge text-bg-dark rounded-pill">Dark</span>--}%
+<div class="row g-5">
+    <div class="col-md-8">
+        <h3 class="pb-4 mb-4 fst-italic border-bottom">
+            Straight from the Oven
+        </h3>
+        <g:each in="${blogPosts}" var="blogPost">
+            <article class="blog-post">
+                <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
+                <p class="blog-post-meta">${blogPost.date}<a href="#"> ${blogPost.author.username}</a></p>
+                <p>${blogPost.content}</p>
+                <g:if test="${blogPost.categories != null}">
+                    <div class="d-flex justify-content-start">
+                        <g:each in="${blogPost.categories}" var="cat">
+                            <span class="font-monospace font-weight-light mx-1 text-bg-primary rounded-pill px-1" style="font-size:12px;">${cat.name}</span>
                         </g:each>
                     </div>
                 </g:if>
                 <g:else>
                     <span class="badge text-bg-primary rounded-pill">Uncategorized</span>
                 </g:else>
-            </li>
+                <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                <hr class="mt-1 mb-1">
+            </article>
         </g:each>
-    </ul>
-</g:if>
+
+        <div class="pagination">
+            <g:paginate total="${postCount ?: 0}" />
+        </div>
+        <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
+            <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
+        </nav>
+    </div>
+
+    <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">Today's Reflection</h4>
+                %{--                <p class="mb-0">Impossible to obtain something that doesn't exist! Even more harmful is the skewed perception that perfection is a good thing.</p>--}%
+                <p class="mb-0">At the end of the day give yourself a few minutes to think about what you thought during the day. Can you find any fallacies?</p>
+            </div>
+
+            <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    <g:each in="${blogPosts}" var="blogPost">
+                        <li>
+                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                                <g:if test="${blogPost.postImageBytes}">
+                                    <div class="image-container">
+                                        <img class="post" src="<g:createLink controller="post" action="postImage" id="${blogPost.id}"/>"/>
+                                    </div>
+                                </g:if>
+                                <g:else>
+                                    <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                                </g:else>
+
+                                <div class="col-lg-8">
+                                    <h6 class="mb-0">${blogPost.title}</h6>
+                                    <small class="text-body-secondary">${blogPost.date}</small>
+                                </div>
+                            </a>
+                        </li>
+                    </g:each>
+                </ul>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+                    <li><a href="#">March 2021</a></li>
+                    <li><a href="#">February 2021</a></li>
+                    <li><a href="#">January 2021</a></li>
+                    <li><a href="#">December 2020</a></li>
+                    <li><a href="#">November 2020</a></li>
+                    <li><a href="#">October 2020</a></li>
+                    <li><a href="#">September 2020</a></li>
+                    <li><a href="#">August 2020</a></li>
+                    <li><a href="#">July 2020</a></li>
+                    <li><a href="#">June 2020</a></li>
+                    <li><a href="#">May 2020</a></li>
+                    <li><a href="#">April 2020</a></li>
+                </ol>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 
 <g:link class="btn btn-primary" action="create">Create New Post</g:link>
 <br/>

@@ -86,7 +86,7 @@ class PostService {
         postMap
     }
 
-    ArrayList<LinkedHashMap<String,Object>> getPostList(){
+    ArrayList<LinkedHashMap<String,Object>> getPostList(def max = 10, def offset = 0){
         def result = []
         def postList = Post.list()
         postList.each{Post p ->

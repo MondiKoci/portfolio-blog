@@ -11,8 +11,13 @@ class PostController {
     def postService
 
     def index() {
-        def blogPosts = Post.list()
-        [blogPosts: blogPosts]
+        def maxPerPage = params.max?:10
+        def page = params.page?:1
+        def blogPosts = postService.getPostList(maxPerPage, page)
+        [
+                blogPosts: blogPosts,
+                postCount:Post.count()
+        ]
     }
 
     @Transactional

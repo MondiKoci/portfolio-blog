@@ -82,3 +82,12 @@
 .bd-mode-toggle {
     z-index: 1500;
 }
+.image-container {
+    width: 117px;
+    overflow: hidden;
+    position: relative;
+}
+.image-container > img{
+    width:100%;
+    max-width:117px;
+}
