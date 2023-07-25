@@ -30,6 +30,10 @@ class PostService {
         [result:result, post:p]
     }
 
+    def get(Long id){
+        Post.get(id)
+    }
+
     def update(def postId, String title, String content){
         boolean result = false
         Post p
@@ -49,6 +53,13 @@ class PostService {
         [result:result, post:p]
     }
 
+    Post update(Serializable id, byte[] imageBytes, String imageContentType){
+        Post p = Post.get(id)
+        p.postImageBytes = imageBytes
+        p.postImageContentType = imageContentType
+        p.save()
+    }
+
     boolean delete(def postId){
         boolean result = false
         try{
@@ -62,22 +73,39 @@ class PostService {
         result
     }
 
+    def getPostForView(def postId){
+        def postMap = null
+        try{
+            Post p = Post.get(postId)
+            if(p){
+                postMap = postForView(p)
+            }
+        }catch(Exception e){
+            log.error("Error while getPostForView $postId : $e")
+        }
+        postMap
+    }
+
     ArrayList<LinkedHashMap<String,Object>> getPostList(){
         def result = []
         def postList = Post.list()
         postList.each{Post p ->
-            Appuser author = p.author
-            def categoryList = p.categories.collect{ cat -> [id:cat.id.toLong(), name:cat.name]}
-            def tempMap = [:]
-            tempMap.put("id", p.id)
-            tempMap.put("title", p.title)
-            tempMap.put("content", p.content)
-            tempMap.put("date", convertDateToStringPattern(p.dateCreated))
-            tempMap.put("author", [id:author.id,username:author.username, name:author.displayName])
-            tempMap.put("categories", categoryList)
-            result.add(tempMap)
+            result.add(postForView(p))
         }
         result
+    }
+
+    def postForView = { Post p ->
+        def tempMap = [:]
+        def categoryList = p.categories.collect{ cat -> [id:cat.id.toLong(), name:cat.name]}
+        tempMap.put("id", p.id)
+        tempMap.put("title", p.title)
+        tempMap.put("content", p.content)
+        tempMap.put("postImageBytes", p.postImageBytes)
+        tempMap.put("date", convertDateToStringPattern(p.dateCreated))
+        tempMap.put("author", [id:p.author.id,username:p.author.username, name:p.author.displayName])
+        tempMap.put("categories", categoryList)
+        return tempMap
     }
 
     def convertDateToStringPattern(Date dateCreated){

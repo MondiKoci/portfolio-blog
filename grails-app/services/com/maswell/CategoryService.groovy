@@ -6,6 +6,19 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class CategoryService {
 
+    def create(String name){
+        result = false
+        try{
+            Category c = new Category(name:name)
+            if(c.save()){
+                result = true
+            }
+        }catch(Exception e){
+            log.error("Error while creating category: $e")
+        }
+        result
+    }
+
     def findById(def categoryId){
         boolean result = false
         Category c
@@ -20,7 +33,7 @@ class CategoryService {
         [result:result, category:c]
     }
 
-    ArrayList<Category> getSetByIdsInList(ArrayList<Long> idList){
+    ArrayList<Category> getSetByIdsInList(def idList){
         ArrayList<Category> catSet = []
 
         idList.each{id ->

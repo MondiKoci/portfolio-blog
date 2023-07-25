@@ -39,11 +39,8 @@ class Appuser implements Serializable {
 	    password column: '`password`'
     }
 
-    def onLoad(){
-        displayName = "$firstName $lastName"
-    }
-
     def getDisplayName(){
-        this.displayName
+        displayName = "$firstName $lastName"
+        displayName
     }
 }

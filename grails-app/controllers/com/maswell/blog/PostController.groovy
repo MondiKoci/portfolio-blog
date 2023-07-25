@@ -7,6 +7,8 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured('ROLE_ADMIN')
 class PostController {
     def springSecurityService
+    def categoryService
+    def postService
 
     def index() {
         def blogPosts = Post.list()
@@ -19,13 +21,17 @@ class PostController {
             Appuser u = springSecurityService.currentUser
             def title = params.title
             def content = params.content
-            List<String> selectedCategories = params.list('selectedCategories')
-            def category = Category.get(params?.category?.id as Double)
+            def selectedCategories = params.list('categories')
+            def categoryList = categoryService.getSetByIdsInList(selectedCategories)
+
             def blogPost = new Post()
+            Date d = new Date()
             blogPost.author = u
             blogPost.title = title
             blogPost.content = content
-            blogPost.addToCategories(category)
+            blogPost.dateCreated = d
+            blogPost.categories = []
+            blogPost.categories.addAll(categoryList)
             if (blogPost.save(flush:true)) {
                 flash.message = "Blog post created successfully."
                 redirect(action: 'index')
@@ -37,8 +43,50 @@ class PostController {
         }
     }
 
+    def postImage(Long id) {
+        Post p = Post.get(id)
+        if (!p || p.postImageBytes == null) {
+            return
+        }
+        render file: p.postImageBytes,
+                contentType: p.postImageContentType
+    }
+
+    def editPostImage() {
+        Long id = params.id.toLong()
+        Post post = postService.get(id)
+        if (!post) {
+            redirect(action:'index')
+            return
+        }
+        [post: post]
+    }
+
+    // tag::uploadFeaturedImage[]
+    def uploadPostImage(PostImageCommand cmd) {
+        if (cmd == null) {
+            return
+        }
+
+        if (cmd.hasErrors()) {
+            respond(cmd.errors, model: [restaurant: cmd], view: 'editFeaturedImage')
+            return
+        }
+
+        Post post = postService.update(cmd.id,
+                cmd.postImageFile.bytes,
+                cmd.postImageFile.contentType)
+
+        if (post == null) {
+            return
+        }
+
+        redirect(action: 'show', id:post.id)
+    }
+    // end::uploadFeaturedImage[]
+
     def show(Long id) {
-        def blogPost = Post.get(id)
+        def blogPost = postService.getPostForView(id)
         if (blogPost) {
             [blogPost: blogPost]
         } else {

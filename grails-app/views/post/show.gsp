@@ -20,20 +20,23 @@
         <g:if test="${blogPost != null}">
             <article class="blog-post">
                 <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
-                <p class="blog-post-meta">${blogPost.dateCreated}<a href="#"> ${blogPost.author.username}</a></p>
+                <p class="blog-post-meta">${blogPost.date}<a href="#"> ${blogPost.author.username}</a></p>
+                <g:if test="${blogPost.postImageBytes}">
+                    <img src="<g:createLink controller="post" action="postImage" id="${blogPost.id}"/>" style="width:100%;max-width:max-content"/>
+                </g:if>
                 <p>${blogPost.content}</p>
                 <g:if test="${blogPost.categories != null}">
                     <div class="d-flex justify-content-start">
                         <g:each in="${blogPost.categories}" var="cat">
-                            # <span class="badge mx-1 text-bg-primary rounded-pill">${cat}</span>
-                            <span class="badge mx-1 text-bg-primary rounded-pill">${cat}</span>
+                            <span class="font-monospace font-weight-light mx-1 text-bg-primary rounded-pill px-1" style="font-size:12px;">${cat.name}</span>
                         </g:each>
                     </div>
                 </g:if>
                 <g:else>
                     <span class="badge text-bg-primary rounded-pill">Uncategorized</span>
                 </g:else>
-                <hr>
+                <g:link action="editPostImage" id="${blogPost.id}">Edit Post Image</g:link>
+                <hr class="mt-1 mb-1">
             </article>
         </g:if>
         <nav class="blog-pagination" aria-label="Pagination">
@@ -56,6 +59,7 @@
                 <ul class="list-unstyled">
                     <li>
                         <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+
                             <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
                             <div class="col-lg-8">
                                 <h6 class="mb-0">Example post post title</h6>

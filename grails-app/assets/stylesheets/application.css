@@ -2,6 +2,7 @@
 *= require bootstrap.min
 *= require ajaxLogin
 *= require jqModal
+*= require select2
 *= require_self
 */
 

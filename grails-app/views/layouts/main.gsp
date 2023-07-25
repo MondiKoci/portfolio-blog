@@ -21,6 +21,7 @@
 <g:render template="/includes/themeSelection"/>
 
 <main class="container mt-2 h-100">
+    <asset:javascript src="application.js"/>
     <g:layoutBody/>
 </main>
 
@@ -28,7 +29,7 @@
     <g:message code="spinner.alt" default="Loading&hellip;"/>
 </div>
 
-<asset:javascript src="application.js"/>
+
 
 </body>
 </html>
