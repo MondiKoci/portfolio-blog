@@ -86,9 +86,10 @@ class PostService {
         postMap
     }
 
+    //Get the full list of posts
     ArrayList<LinkedHashMap<String,Object>> getPostList(def max = 10, def offset = 0){
         def result = []
-        def postList = Post.list()
+        def postList = Post.list(max:max, offset:offset)
         postList.each{Post p ->
             result.add(postForView(p))
         }

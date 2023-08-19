@@ -6,6 +6,10 @@
 *= require_self
 */
 
+.max-c{
+    width:100% !important;
+    max-width: max-content !important;
+}
 .mx-point-one{
     margin-right: 0.1rem!important;
     margin-left: 0.1rem!important;
@@ -140,4 +144,40 @@ h1, h2, h3, h4, h5, h6 {
 .blog-post-meta {
     margin-bottom: 1.25rem;
     color: #727272;
+}
+
+/* Style for pagination links */
+.prevLink,
+.nextLink,
+.step {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 2px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    color: #333;
+    border-radius: 3px;
+}
+
+.prevLink:hover,
+.nextLink:hover,
+.step:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style for current step */
+.currentStep {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 2px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 3px;
+}
+
+/* Style for the gap between steps */
+.gap {
+    margin: 0 5px;
+    color: #999;
 }

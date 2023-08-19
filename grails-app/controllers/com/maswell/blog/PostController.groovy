@@ -11,9 +11,9 @@ class PostController {
     def postService
 
     def index() {
-        def maxPerPage = params.max?:10
-        def page = params.page?:1
-        def blogPosts = postService.getPostList(maxPerPage, page)
+        def max = params.max?:10
+        def page = params.offset?:0
+        def blogPosts = postService.getPostList(max, page)
         [
                 blogPosts: blogPosts,
                 postCount:Post.count()
