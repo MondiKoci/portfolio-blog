@@ -19,7 +19,7 @@ class CategoryService {
         result
     }
 
-    def findById(def categoryId){
+    def getById(def categoryId){
         boolean result = false
         Category c
         try{
@@ -31,6 +31,11 @@ class CategoryService {
             log.error("Error while finding category by id $categoryId : $e")
         }
         [result:result, category:c]
+    }
+
+    def getByName(String name){
+        Category cat = Category.findByName(name)
+        cat
     }
 
     ArrayList<Category> getSetByIdsInList(def idList){

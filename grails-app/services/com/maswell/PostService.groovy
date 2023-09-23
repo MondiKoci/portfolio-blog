@@ -11,7 +11,7 @@ class PostService {
     def springSecurityService
     def categoryService
 
-    def create(String title, String content, ArrayList<Long> categoryList){
+    def create(String title, String content, def categoryList){
         boolean result = false
         Post p
         try{
@@ -87,15 +87,38 @@ class PostService {
     }
 
     //Get the full list of posts
-    ArrayList<LinkedHashMap<String,Object>> getPostList(def max = 10, def offset = 0){
+    ArrayList<LinkedHashMap<String,Object>> getPostList(def max = 10, def offset = 0, String catName = null){
+        def category = categoryService.getByName(catName)
         def result = []
-        def postList = Post.list(max:max, offset:offset)
+        Post.list(max:max, offset:offset).forEach {post ->
+            if(category){
+                if(post.categories.contains(category)){
+                    result.add(postForView(post))
+                }
+            }else{
+                result.add(postForView(post))
+            }
+        }
+        result
+    }
+
+    //Get 4 latest posts
+    ArrayList<LinkedHashMap<String,Object>> getLatest(){
+        def result = []
+        def postList = Post.list(max:4)
         postList.each{Post p ->
             result.add(postForView(p))
         }
         result
     }
 
+    //Get posts by category
+    def getByCategory(String categoryName){
+        Category cat = categoryService.getByName(categoryName)
+
+    }
+
+    //TODO: Check if this is efficient: Maybe apply this to each post on load.
     def postForView = { Post p ->
         def tempMap = [:]
         def categoryList = p.categories.collect{ cat -> [id:cat.id.toLong(), name:cat.name]}

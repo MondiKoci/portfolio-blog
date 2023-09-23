@@ -1,6 +1,14 @@
 <article class="blog-post">
     <h2 class="display-5 link-body-emphasis mb-1">${blogPost.title}</h2>
-    <p>${blogPost.content}</p>
+    <p>
+        <g:if test="${blogPost.content?.length() > 300}">
+            <span class="hidden-content">${blogPost.content?.substring(0, 300)}</span>
+            ... <a href="#" class="continue-reading">Continue Reading</a>
+        </g:if>
+        <g:else>
+            <span class="post-content">${blogPost.content}</span>
+        </g:else>
+    </p>
     <g:if test="${blogPost.categories != null || blogPost.categories.size() != 0}">
         <div class="d-flex flex-row justify-content-between align-items-end">
             <div class="mxw-content">
@@ -8,7 +16,7 @@
             </div>
             <div class="d-flex justify-content-end">
                 <g:each in="${blogPost.categories}" var="cat" status="i">
-                    <a href="#" class="fs-8 text-nowrap text-lowercase text-primary px-1 text-decoration-none hover-decoration">
+                    <a href="${createLink(controller: 'post', action: 'index', params: [category: cat.name])}" class="fs-8 text-nowrap text-lowercase text-primary px-1 text-decoration-none hover-decoration">
                         <g:if test="${i < blogPost.categories.size() - 1}">
                             ${cat.name},
                         </g:if>

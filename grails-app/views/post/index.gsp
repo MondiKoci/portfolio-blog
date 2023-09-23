@@ -14,7 +14,7 @@
 
 <body>
 <div class="row pt-2">
-    <div class="col-md-8">
+    <div class="row">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             Straight from the Oven
             <sec:ifAllGranted roles="ROLE_ADMIN">
@@ -23,6 +23,9 @@
             </sec:ifAllGranted>
 
         </h3>
+    </div>
+
+    <div class="col-md-8">
         <g:render template="/includes/post" collection="${blogPosts}" var="blogPost"/>
         <div class="pagination">
             <g:paginate total="${postCount ?: 0}" />
@@ -32,14 +35,15 @@
     <div class="col-md-4">
         <div class="position-sticky" style="top: 2rem;">
             <div class="p-4 mb-3 bg-body-tertiary rounded">
-                <h4 class="fst-italic">Ropewalkers</h4>
-                <p class="mb-0">Few of us are walking on the rope. The rest we are hanging to it - either carrying our heavy weight or holding tight so the wind doesn't blow us away</p>
+                <h4 class="fst-italic">Today's Quote</h4>
+                <p class="mb-0">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
             </div>
 
             <div>
                 <h4 class="fst-italic">Recent posts</h4>
                 <ul class="list-unstyled">
-                    <g:render template="/includes/recentPost" collection="${blogPosts}" var="blogPost"/>
+                    <g:render template="/includes/recentPost" collection="${latestPosts}" var="blogPost"/>
                 </ul>
             </div>
 
@@ -72,7 +76,7 @@
         </div>
     </div>
 </div>
-%{--<script>--}%
+<script>
 %{--    $(()=>{--}%
 %{--        var $prevLink = $('.prevLink');--}%
 %{--        var $nextLink = $('.nextLink')--}%
@@ -83,6 +87,6 @@
 %{--            $nextLink.addClass('btn btn-outline-primary rounded-pill')--}%
 %{--        }--}%
 %{--    })--}%
-%{--</script>--}%
+</script>
 </body>
 </html>

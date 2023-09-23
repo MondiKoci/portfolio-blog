@@ -3,6 +3,9 @@ package com.maswell.blog
 import com.maswell.security.Appuser
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.annotation.Get
+import org.springframework.web.servlet.ModelAndView
 
 @Secured('permitAll')
 class PostController {
@@ -13,14 +16,19 @@ class PostController {
     def index() {
         def max = params.max?:10
         def page = params.offset?:0
-        def blogPosts = postService.getPostList(max, page)
+        params.max = max
+        params.offset = page
+        def catName = params.category
+        def blogPosts = postService.getPostList(max, page, catName)
+        def latestPosts = postService.getLatest()
+        def postCount = catName?blogPosts.size():Post.count()
         [
                 blogPosts: blogPosts,
-                postCount:Post.count()
+                latestPosts: latestPosts,
+                postCount:postCount
         ]
     }
 
-    @Transactional
     def create() {
         if (request.method == 'POST') {
             Appuser u = springSecurityService.currentUser
@@ -29,19 +37,21 @@ class PostController {
             def selectedCategories = params.list('categories')
             def categoryList = categoryService.getSetByIdsInList(selectedCategories)
 
-            def blogPost = new Post()
-            Date d = new Date()
-            blogPost.author = u
-            blogPost.title = title
-            blogPost.content = content
-            blogPost.dateCreated = d
-            blogPost.categories = []
-            blogPost.categories.addAll(categoryList)
-            if (blogPost.save(flush:true)) {
+            def result = postService.create(title, content, selectedCategories)
+
+//            def blogPost = new Post()
+//            Date d = new Date()
+//            blogPost.author = u
+//            blogPost.title = title
+//            blogPost.content = content
+//            blogPost.dateCreated = d
+//            blogPost.categories = []
+//            blogPost.categories.addAll(categoryList)
+            if (result.result) {
                 flash.message = "Blog post created successfully."
                 redirect(action: 'index')
             } else {
-                render(view: 'create', model: [blogPost: blogPost, categories: Category.list()])
+                render(view: 'create', model: [blogPost: result.p, categories: Category.list()])
             }
         } else {
             return [blogPost: new Post(), categories: Category.list()]

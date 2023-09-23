@@ -1,0 +1,2 @@
+1. Handle validation for CRUD operations
+2. Check for redundancy
